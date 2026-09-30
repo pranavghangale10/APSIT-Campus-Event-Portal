@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Event Portal - FSJPL Assignment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and smooth transitions */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .tab-active {
+            border-bottom: 3px solid #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Branding Header -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white p-2 rounded-xl text-indigo-900 shadow-md">
+                        <i class="fa-solid me-1 fa-graduation-cap text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold tracking-widest text-indigo-200 uppercase block">APSIT - Dept. of Information Technology</span>
+                        <h1 class="text-xl font-bold tracking-tight text-white">Campus Event Information Portal</h1>
+                    </div>
+                </div>
+
+                <!-- View Switcher Tabs (Assignment Doc vs Live Portal) -->
+                <nav class="hidden md:flex space-x-2 bg-indigo-950/60 p-1.5 rounded-xl border border-indigo-800/50">
+                    <button onclick="switchView('portal')" id="btn-portal" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow">
+                        <i class="fa-solid fa-globe mr-2"></i>Live Web Portal (Part B)
+                    </button>
+                    <button onclick="switchView('theory')" id="btn-theory" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-indigo-200 hover:text-white hover:bg-indigo-800/50">
+                        <i class="fa-solid fa-file-code mr-2"></i>Assignment Report (Part A)
+                    </button>
+                </nav>
+
+                <!-- Mobile menu toggle -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-indigo-800 text-indigo-100 hover:bg-indigo-700">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-indigo-950 px-4 pt-2 pb-4 space-y-2 border-t border-indigo-800">
+            <button onclick="switchView('portal'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-800">
+                <i class="fa-solid fa-globe mr-2"></i>Live Web Portal (Part B)
+            </button>
+            <button onclick="switchView('theory'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:bg-indigo-900">
+                <i class="fa-solid fa-file-code mr-2"></i>Assignment Report (Part A)
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ========================================================================= -->
+        <!-- VIEW 1: PART B - LIVE INTERACTIVE WEB PORTAL                             -->
+        <!-- ========================================================================= -->
+        <section id="view-portal" class="space-y-10">
+
+            <!-- Banner Hero Section -->
+            <div class="relative bg-gradient-to-r from-indigo-800 via-indigo-700 to-purple-800 rounded-3xl p-8 md:p-12 text-white shadow-xl overflow-hidden">
+                <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80');"></div>
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-100 border border-indigo-400/30">
+                        <i class="fa-solid fa-sparkles mr-1.5 text-amber-300"></i> Academic Year 2026-2027
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Inter-College Fests, Hackathons & Cultural Meets</h2>
+                    <p class="text-indigo-100 text-base sm:text-lg leading-relaxed">
+                        Welcome to the official event portal. Explore upcoming technical challenges, workshops, sports tournaments, and symposiums hosted by the Department of Information Technology.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <a href="#events-section" class="inline-flex items-center px-5 py-3 rounded-xl bg-white text-indigo-900 font-semibold text-sm hover:bg-indigo-50 transition shadow-lg">
+                            <i class="fa-solid fa-compass mr-2 text-indigo-600"></i> Browse Events
+                        </a>
+                        <a href="#registration-section" class="inline-flex items-center px-5 py-3 rounded-xl bg-indigo-600/80 hover:bg-indigo-600 text-white font-semibold text-sm border border-indigo-400/40 transition">
+                            <i class="fa-solid fa-pen-to-square mr-2"></i> Register Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Category Filters & Search -->
+            <div id="events-section" class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Upcoming Campus Events</h3>
+                        <p class="text-sm text-slate-500">Discover and participate in various extracurricular and technical competitions</p>
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="filterEvents('all')" class="event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-indigo-600 text-white shadow-sm" data-category="all">All Events</button>
+                        <button onclick="filterEvents('Technical')" class="event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition" data-category="Technical">Technical</button>
+                        <button onclick="filterEvents('Workshops')" class="event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition" data-category="Workshops">Workshops</button>
+                        <button onclick="filterEvents('Sports')" class="event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition" data-category="Sports">Sports</button>
+                    </div>
+                </div>
+
+                <!-- Event Cards Grid -->
+                <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Cards populated via JS -->
+                </div>
+            </div>
+
+            <!-- Event Schedule Overview Table Section -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden space-y-4 p-6">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-table-list text-indigo-600 mr-2.5"></i> Comprehensive Event Schedule (2026-27)
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Quick calendar overview of dates, venues, and live seat availability status.</p>
+                    </div>
+                    <span class="text-xs font-medium px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200">
+                        <i class="fa-solid fa-circle text-[8px] mr-1 text-emerald-500"></i> Portal Live & Accepting Submissions
+                    </span>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold uppercase text-xs tracking-wider">
+                            <tr>
+                                <th class="py-3.5 px-4">#</th>
+                                <th class="py-3.5 px-4">Event Name</th>
+                                <th class="py-3.5 px-4">Category</th>
+                                <th class="py-3.5 px-4">Date & Time</th>
+                                <th class="py-3.5 px-4">Venue</th>
+                                <th class="py-3.5 px-4 text-center">Status</th>
+                                <th class="py-3.5 px-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-table-body" class="divide-y divide-slate-200 bg-white">
+                            <!-- Populated dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Event Registration Web Form -->
+            <div id="registration-section" class="bg-white rounded-3xl shadow-xl border border-indigo-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-900 to-slate-900 px-6 py-8 text-white">
+                    <div class="max-w-2xl">
+                        <span class="text-xs uppercase tracking-widest text-indigo-300 font-semibold">Online Submission</span>
+                        <h3 class="text-2xl font-bold tracking-tight mt-1">Student Event Registration Form</h3>
+                        <p class="text-indigo-200 text-sm mt-1">Fill in your academic credentials and details to reserve your slot for campus activities.</p>
+                    </div>
+                </div>
+
+                <form id="event-reg-form" onsubmit="handleRegistrationSubmit(event)" class="p-6 md:p-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Student Name -->
+                        <div>
+                            <label for="reg-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Student Full Name <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-400"></i>
+                                <input type="text" id="reg-name" required placeholder="e.g. Rahul Sharma"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                            </div>
+                        </div>
+
+                        <!-- Roll No / Student ID -->
+                        <div>
+                            <label for="reg-id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Student ID / Roll Number <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-id-card absolute left-3.5 top-3.5 text-slate-400"></i>
+                                <input type="text" id="reg-id" required placeholder="e.g. 25104099"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                            </div>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div>
+                            <label for="reg-email" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Email Address <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-slate-400"></i>
+                                <input type="email" id="reg-email" required placeholder="e.g. student@apsit.edu.in"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                            </div>
+                        </div>
+
+                        <!-- Branch Selection -->
+                        <div>
+                            <label for="reg-branch" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Department / Branch <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-building-columns absolute left-3.5 top-3.5 text-slate-400"></i>
+                                <select id="reg-branch" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition bg-white">
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Computer Engineering">Computer Engineering</option>
+                                    <option value="AI & Data Science">AI & Data Science</option>
+                                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Academic Year -->
+                        <div>
+                            <label for="reg-year" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Academic Year <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-graduation-cap absolute left-3.5 top-3.5 text-slate-400"></i>
+                                <select id="reg-year" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition bg-white">
+                                    <option value="" disabled selected>Select Current Year</option>
+                                    <option value="First Year (FE)">First Year (FE)</option>
+                                    <option value="Second Year (SE)">Second Year (SE)</option>
+                                    <option value="Third Year (TE)">Third Year (TE)</option>
+                                    <option value="Final Year (BE)">Final Year (BE)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Gender Options -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                Gender <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="flex items-center space-x-6 py-2">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="reg-gender" value="Male" required class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                                    <span class="ml-2 text-sm text-slate-700">Male</span>
+                                </label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="reg-gender" value="Female" required class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                                    <span class="ml-2 text-sm text-slate-700">Female</span>
+                                </label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="reg-gender" value="Other" required class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                                    <span class="ml-2 text-sm text-slate-700">Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Event Dropdown -->
+                    <div>
+                        <label for="reg-event" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Select Event <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-trophy absolute left-3.5 top-3.5 text-slate-400"></i>
+                            <select id="reg-event" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition bg-white">
+                                <option value="" disabled selected>Choose event from list</option>
+                                <option value="OJUS Tech Fest 2026">OJUS Tech Fest 2026</option>
+                                <option value="HackTech Coding Challenge">HackTech Coding Challenge</option>
+                                <option value="Project Innovation Expo">Project Innovation Expo</option>
+                                <option value="Annual Sports Olympiad">Annual Sports Olympiad</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Technical Skills / Domain -->
+                    <div>
+                        <label for="reg-skills" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Skills & Domain Interests
+                        </label>
+                        <input type="text" id="reg-skills" placeholder="e.g. Java, Web Development, Competitive Programming, Cricket"
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                    </div>
+
+                    <!-- Additional Remarks / Team Details -->
+                    <div>
+                        <label for="reg-remarks" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Remarks / Teammate Names (If Team Event)
+                        </label>
+                        <textarea id="reg-remarks" rows="3" placeholder="List your teammate details or any hardware/software requirements..."
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2 flex justify-end">
+                        <button type="submit" class="w-full md:w-auto px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-200 transition-all flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Submit Registration Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Toast Alert Box -->
+            <div id="toast-message" class="hidden fixed bottom-6 right-6 z-50 bg-emerald-900 text-white px-5 py-4 rounded-2xl shadow-2xl border border-emerald-700 flex items-center space-x-3 transition-all duration-300">
+                <div class="bg-emerald-500/20 p-2 rounded-xl text-emerald-300">
+                    <i class="fa-solid fa-circle-check text-xl"></i>
+                </div>
+                <div>
+                    <h5 class="text-sm font-bold" id="toast-title">Registration Successful!</h5>
+                    <p class="text-xs text-emerald-200" id="toast-desc">Your event slot has been booked successfully.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- VIEW 2: PART A - ASSIGNMENT THEORY & MVC ARCHITECTURE DOCUMENT            -->
+        <!-- ========================================================================= -->
+        <section id="view-theory" class="hidden space-y-8">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-md border border-slate-200 space-y-8">
+                
+                <!-- Document Header -->
+                <div class="border-b border-slate-200 pb-6 text-center space-y-2">
+                    <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider rounded-full">Course: FSJPL / Academic Assignment</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Part A: Full-Stack Web Architecture & MVC Analysis</h2>
+                    <p class="text-slate-500 text-sm max-w-2xl mx-auto">Theoretical mapping and structural component analysis for the Campus Event Information Portal.</p>
+                </div>
+
+                <!-- Section 1: Major Components of a Full-Stack Application -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-indigo-950 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-3 text-sm font-black">1</span>
+                        Key Architectural Tiers of a Full-Stack Application
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        A modern full-stack web application is structured into three cleanly decoupled layers, ensuring modularity, scalability, and maintainability across the system lifecycle:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <!-- Presentation Tier -->
+                        <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-2">
+                            <div class="text-indigo-600 font-bold text-base flex items-center">
+                                <i class="fa-solid fa-desktop mr-2"></i> Presentation Layer
+                            </div>
+                            <span class="text-[11px] font-semibold text-indigo-500 uppercase tracking-wide">Client-Side Interface</span>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Operates directly within the end-user's browser. Responsible for rendering graphic controls, event cards, form validation scripts, and processing layout interactivity.
+                            </p>
+                            <div class="pt-2 text-[11px] font-semibold text-slate-500">
+                                <strong>Technologies:</strong> HTML5, CSS3, Tailwind CSS / Bootstrap, JavaScript.
+                            </div>
+                        </div>
+
+                        <!-- Business Logic Tier -->
+                        <div class="bg-purple-50/50 p-5 rounded-2xl border border-purple-100 space-y-2">
+                            <div class="text-purple-600 font-bold text-base flex items-center">
+                                <i class="fa-solid fa-gears mr-2"></i> Business Logic Layer
+                            </div>
+                            <span class="text-[11px] font-semibold text-purple-500 uppercase tracking-wide">Server-Side Engine</span>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Handles incoming HTTP REST requests, enforces security rules, validates student input parameters, processes registration logic, and orchestrates database transactions.
+                            </p>
+                            <div class="pt-2 text-[11px] font-semibold text-slate-500">
+                                <strong>Technologies:</strong> Java Servlets, Spring Boot framework, Node.js.
+                            </div>
+                        </div>
+
+                        <!-- Data Tier -->
+                        <div class="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100 space-y-2">
+                            <div class="text-emerald-600 font-bold text-base flex items-center">
+                                <i class="fa-solid fa-database mr-2"></i> Data Persistence Layer
+                            </div>
+                            <span class="text-[11px] font-semibold text-emerald-500 uppercase tracking-wide">Database Store</span>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Provides reliable, durable storage for student records, event schedules, and capacity limits. Executes relational SQL queries and CRUD operations securely.
+                            </p>
+                            <div class="pt-2 text-[11px] font-semibold text-slate-500">
+                                <strong>Technologies:</strong> MySQL, PostgreSQL, MariaDB.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Interactive MVC Diagram -->
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h3 class="text-xl font-bold text-indigo-950 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-3 text-sm font-black">2</span>
+                        Model-View-Controller (MVC) Flow Architecture Diagram
+                    </h3>
+                    
+                    <div class="bg-slate-900 rounded-2xl p-6 text-white space-y-6">
+                        <div class="text-center text-xs font-mono text-slate-400 uppercase tracking-widest">Client - Server Execution Sequence</div>
+
+                        <!-- Diagram Flow Box -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                            <!-- User/View -->
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                                <div class="text-indigo-400 font-bold text-sm"><i class="fa-solid fa-user-graduate mb-2 text-2xl block"></i> Student / View</div>
+                                <p class="text-[11px] text-slate-300 mt-2">Submits Form / Browses Schedule via Responsive HTML UI</p>
+                            </div>
+
+                            <!-- Controller -->
+                            <div class="bg-slate-800 p-4 rounded-xl border border-indigo-500/50 flex flex-col justify-between">
+                                <div class="text-indigo-300 font-bold text-sm"><i class="fa-solid fa-route mb-2 text-2xl block text-amber-400"></i> Controller Servlet</div>
+                                <p class="text-[11px] text-slate-300 mt-2">Intercepts POST / GET HTTP Request, Validates Data Parameters</p>
+                            </div>
+
+                            <!-- Model -->
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                                <div class="text-indigo-400 font-bold text-sm"><i class="fa-solid fa-cubes mb-2 text-2xl block text-emerald-400"></i> Business Model & DAO</div>
+                                <p class="text-[11px] text-slate-300 mt-2">Executes SQL Operations & Enforces Event Capacity Business Logic</p>
+                            </div>
+
+                            <!-- Database -->
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                                <div class="text-indigo-400 font-bold text-sm"><i class="fa-solid fa-server mb-2 text-2xl block text-purple-400"></i> Relational DB</div>
+                                <p class="text-[11px] text-slate-300 mt-2">Stores Persistent Registration Records in MySQL Engine</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Component Mapping Table -->
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h3 class="text-xl font-bold text-indigo-950 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mr-3 text-sm font-black">3</span>
+                        MVC Architectural Mapping for Campus Event Portal
+                    </h3>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm text-slate-600">
+                            <thead class="bg-indigo-900 text-white font-semibold">
+                                <tr>
+                                    <th class="py-3 px-4 w-1/4">MVC Layer</th>
+                                    <th class="py-3 px-4 w-1/3">System Components / Java Classes</th>
+                                    <th class="py-3 px-4">Functional Role in Portal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="py-3.5 px-4 font-bold text-indigo-900 bg-slate-50">Model Layer</td>
+                                    <td class="py-3.5 px-4 font-mono text-indigo-700">
+                                        • EventEntity.java<br>
+                                        • StudentRegistration.java<br>
+                                        • EventDAO.java
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        Encapsulates domain entities (Event ID, Venue, Time, Capacity) and handles persistent database interactions such as <code class="bg-slate-100 px-1 py-0.5 rounded">saveRegistration()</code> and <code class="bg-slate-100 px-1 py-0.5 rounded">fetchActiveEvents()</code>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-4 font-bold text-indigo-900 bg-slate-50">View Layer</td>
+                                    <td class="py-3.5 px-4 font-mono text-indigo-700">
+                                        • index.html<br>
+                                        • EventSchedule.jsp<br>
+                                        • Tailwind / Bootstrap Forms
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        presents the user interface, event catalogue cards, filter controls, and the interactive student registration form with client-side feedback alerts.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3.5 px-4 font-bold text-indigo-900 bg-slate-50">Controller Layer</td>
+                                    <td class="py-3.5 px-4 font-mono text-indigo-700">
+                                        • EventRegistrationServlet.java<br>
+                                        • EventPortalController.java
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        Acts as mediator: receives HTTP form submissions, validates student credentials, invokes DAO methods to store records, and directs response flow to user.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-medium text-slate-300">A. P. SHAH INSTITUTE OF TECHNOLOGY — Department of Information Technology</p>
+            <p>Full-Stack Java Programming Laboratory (FSJPL) | Academic Year 2026-2027</p>
+            <p class="text-slate-500 text-[11px]">Designed for Web Application & Enterprise Systems Assessment</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample Event Data (Distinct & Detailed with Event Images)
+        const campusEvents = [
+            {
+                id: 1,
+                title: "OJUS Tech Fest 2026",
+                category: "Technical",
+                badgeColor: "bg-indigo-100 text-indigo-800",
+                date: "October 16, 2026",
+                time: "09:30 AM",
+                venue: "Main Auditorium",
+                desc: "Annual technical extravaganza featuring robotics racing, AI paper presentations, and algorithmic coding.",
+                status: "Open",
+                statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+                icon: "fa-robot",
+                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                title: "HackTech Coding Challenge",
+                category: "Technical",
+                badgeColor: "bg-indigo-100 text-indigo-800",
+                date: "October 24, 2026",
+                time: "10:30 AM",
+                venue: "Computer Labs 401 & 402",
+                desc: "24-hour speed programming and software optimization contest hosted by the IT Department.",
+                status: "Open",
+                statusColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+                icon: "fa-code",
+                image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                title: "Project Innovation Expo",
+                category: "Workshops",
+                badgeColor: "bg-purple-100 text-purple-800",
+                date: "November 06, 2026",
+                time: "10:00 AM",
+                venue: "Seminar Halls 1 & 2",
+                desc: "Showcase of capstone hardware and web modules evaluated by industry tech leaders.",
+                status: "Closing Soon",
+                statusColor: "bg-amber-100 text-amber-800 border-amber-200",
+                icon: "fa-lightbulb",
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 4,
+                title: "Annual Sports Olympiad",
+                category: "Sports",
+                badgeColor: "bg-emerald-100 text-emerald-800",
+                date: "November 20, 2026",
+                time: "08:30 AM",
+                venue: "APSIT Sports Complex",
+                desc: "Inter-departmental sports tournament including badminton, table tennis, and chess.",
+                status: "Upcoming",
+                statusColor: "bg-blue-100 text-blue-800 border-blue-200",
+                icon: "fa-trophy",
+                image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        // Function to render event cards
+        function renderEventCards(filterCategory = 'all') {
+            const container = document.getElementById('events-grid');
+            container.innerHTML = '';
+
+            const filtered = filterCategory === 'all' 
+                ? campusEvents 
+                : campusEvents.filter(e => e.category === filterCategory);
+
+            filtered.forEach(evt => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <!-- Event Image Header -->
+                        <div class="relative h-44 overflow-hidden bg-slate-100">
+                            <img src="${evt.image}" alt="${evt.title}" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                onerror="this.onerror=null; this.src='https://placehold.co/600x400/4f46e5/ffffff?text=${encodeURIComponent(evt.title)}';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                            <span class="absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-full ${evt.badgeColor} shadow">
+                                ${evt.category}
+                            </span>
+                            <div class="absolute bottom-3 right-3 w-8 h-8 rounded-xl bg-white/90 backdrop-blur text-indigo-600 flex items-center justify-center text-sm shadow">
+                                <i class="fa-solid ${evt.icon}"></i>
+                            </div>
+                        </div>
+
+                        <div class="p-5 space-y-3">
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors">${evt.title}</h4>
+                                <p class="text-xs text-slate-500 mt-1 line-clamp-2">${evt.desc}</p>
+                            </div>
+
+                            <div class="space-y-1.5 pt-2 text-xs text-slate-600 border-t border-slate-100">
+                                <div class="flex items-center"><i class="fa-regular fa-calendar text-indigo-500 w-5"></i><span>${evt.date}</span></div>
+                                <div class="flex items-center"><i class="fa-regular fa-clock text-indigo-500 w-5"></i><span>${evt.time}</span></div>
+                                <div class="flex items-center"><i class="fa-solid fa-location-dot text-indigo-500 w-5"></i><span>${evt.venue}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-100">
+                        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full border ${evt.statusColor}">${evt.status}</span>
+                        <button onclick="selectEventForRegistration('${evt.title}')" class="px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white text-xs font-bold transition">
+                            Register <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Function to render schedule table
+        function renderScheduleTable() {
+            const tableBody = document.getElementById('schedule-table-body');
+            tableBody.innerHTML = '';
+
+            campusEvents.forEach((evt, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition-colors";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 font-bold text-slate-400">${idx + 1}</td>
+                    <td class="py-3.5 px-4 font-semibold text-slate-800">${evt.title}</td>
+                    <td class="py-3.5 px-4"><span class="text-[11px] font-semibold px-2 py-0.5 rounded ${evt.badgeColor}">${evt.category}</span></td>
+                    <td class="py-3.5 px-4 text-xs">${evt.date} (${evt.time})</td>
+                    <td class="py-3.5 px-4 text-xs">${evt.venue}</td>
+                    <td class="py-3.5 px-4 text-center"><span class="text-[10px] font-bold px-2.5 py-1 rounded-full border ${evt.statusColor}">${evt.status}</span></td>
+                    <td class="py-3.5 px-4 text-right">
+                        <button onclick="selectEventForRegistration('${evt.title}')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">
+                            Apply <i class="fa-solid fa-chevron-right text-[10px] ml-0.5"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Handle Event Category Filter
+        function filterEvents(category) {
+            document.querySelectorAll('.event-filter-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.className = "event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold transition bg-indigo-600 text-white shadow-sm";
+                } else {
+                    btn.className = "event-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition";
+                }
+            });
+            renderEventCards(category);
+        }
+
+        // Auto Select Event in Form and Scroll
+        function selectEventForRegistration(eventTitle) {
+            const selectEl = document.getElementById('reg-event');
+            selectEl.value = eventTitle;
+            
+            // Smooth Scroll to form
+            document.getElementById('registration-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Handle Registration Submit Form
+        function handleRegistrationSubmit(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('reg-name').value;
+            const eventSelected = document.getElementById('reg-event').value;
+
+            // Display Toast
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-title').textContent = "Registration Confirmed!";
+            document.getElementById('toast-desc').textContent = ${studentName} registered for ${eventSelected}.;
+            
+            toast.classList.remove('hidden');
+
+            // Reset form
+            document.getElementById('event-reg-form').reset();
+
+            // Hide Toast after 4 seconds
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Switch between Assignment Theory (Part A) & Live Portal (Part B)
+        function switchView(target) {
+            const portalView = document.getElementById('view-portal');
+            const theoryView = document.getElementById('view-theory');
+            const btnPortal = document.getElementById('btn-portal');
+            const btnTheory = document.getElementById('btn-theory');
+
+            if (target === 'portal') {
+                portalView.classList.remove('hidden');
+                theoryView.classList.add('hidden');
+                btnPortal.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow";
+                btnTheory.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-indigo-200 hover:text-white hover:bg-indigo-800/50";
+            } else {
+                theoryView.classList.remove('hidden');
+                portalView.classList.add('hidden');
+                btnTheory.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow";
+                btnPortal.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-indigo-200 hover:text-white hover:bg-indigo-800/50";
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize App on Load
+        window.onload = function() {
+            renderEventCards();
+            renderScheduleTable();
+        };
+    </script>
+</body>
+</html>
